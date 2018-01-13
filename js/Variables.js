@@ -3,6 +3,11 @@ var swipeStartCol=0;
 var swipeStopRow=0;
 var swipeStopCol=0;
 
+var swipeStartX=0;
+var swipeStartY=0;
+var swipeStopX=0;
+var swipeStopY=0;
+
 // square info
 var firstX = 50;
 var firstY = 50;

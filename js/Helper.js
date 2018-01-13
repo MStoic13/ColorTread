@@ -5,6 +5,8 @@ function DrawBoard(stage){
     // add the mouse interaction listeners
     stage.on('mousedown', function() {
         var pointCoordinates = stage.getPointerPosition();
+        swipeStartX = pointCoordinates.x;
+        swipeStartY = pointCoordinates.y;
         var squarePosition = IdentifySquare(pointCoordinates);
         console.log('mousedown on ' + JSON.stringify(squarePosition));
         swipeStartRow = squarePosition.row;
@@ -12,6 +14,8 @@ function DrawBoard(stage){
     });
     stage.on('mouseup', function() {
         var pointCoordinates = stage.getPointerPosition();
+        swipeStopX = pointCoordinates.x;
+        swipeStopY = pointCoordinates.y;
         var squarePosition = IdentifySquare(pointCoordinates);
         console.log('mouseup on ' + JSON.stringify(squarePosition));
         swipeStopRow = squarePosition.row;
@@ -190,7 +194,31 @@ function TreadSquares(){
             TreadColPrev();
         }
     }
-    // todo: diag logic
+    // diag logic
+    else{
+        var deltaX = swipeStartX - swipeStopX;
+        var deltaY = swipeStartY - swipeStopY;
+        var angle = Math.ceil(Math.atan2(deltaY, deltaX));
+
+        console.log("angle=" + angle);
+
+        // primary diag fw
+        if(angle === -2){
+            TreadPrimaryDiagFw();
+        }
+        // primary diag prev
+        else if(angle === 1){
+            //TreadPrimaryDiagPrev();
+        }
+        // secondary diag fw
+        else if(angle === 0){
+            //TreadSecondaryDiagFw();
+        }
+        // secondary diag prev
+        else if(angle === 3){
+            //TreadSecondaryDiagPrev();
+        }
+    }
 }
 
 function TreadRowFw(){
@@ -230,6 +258,38 @@ function TreadColPrev(){
         var nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1; // loop colors when you reach the end
         boardSquares[index][swipeStartCol].fill(colorOrder[nextColorIndex]);
         boardSquares[index][swipeStartCol].draw();
+    }
+}
+
+function TreadPrimaryDiagFw(){
+    // color upwards
+    var rowIndex = swipeStartRow;
+    var colIndex = swipeStartCol;
+    while(rowIndex > 0 && colIndex > 0){
+        // color
+        var currentColor = boardSquares[rowIndex][colIndex].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
+        boardSquares[rowIndex][colIndex].fill(colorOrder[nextColorIndex]);
+        boardSquares[rowIndex][colIndex].draw();
+
+        rowIndex--;
+        colIndex--;
+    }
+
+    // color downwards
+    var rowIndex = swipeStartRow + 1;
+    var colIndex = swipeStartCol + 1;
+    while(rowIndex < 4 && colIndex < 4){
+        // color
+        var currentColor = boardSquares[rowIndex][colIndex].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
+        boardSquares[rowIndex][colIndex].fill(colorOrder[nextColorIndex]);
+        boardSquares[rowIndex][colIndex].draw();
+
+        rowIndex++;
+        colIndex++;
     }
 }
 
