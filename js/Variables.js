@@ -1,7 +1,7 @@
-var lineStartX=0;
-var lineStartY=0;
-var lineStopX=0;
-var lineStopY=0;
+var swipeStartRow=0;
+var swipeStartCol=0;
+var swipeStopRow=0;
+var swipeStopCol=0;
 
 // square info
 var firstX = 50;
@@ -11,4 +11,7 @@ var distanceBetweenSquares = 10;
 
 // colors
 var colorOrder = ["red", "yellow", "green", "blue"];
-var boardSquares= [];
+
+// holds the references to all squares on the board
+// needed for changing colors
+var boardSquares = [];

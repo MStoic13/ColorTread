@@ -5,16 +5,18 @@ function DrawBoard(stage){
     // add the mouse interaction listeners
     stage.on('mousedown', function() {
         var pointCoordinates = stage.getPointerPosition();
-        console.log('mousedown on ' + JSON.stringify(IdentifySquare(pointCoordinates)));
-        lineStartX = pointCoordinates.x;
-        lineStartY = pointCoordinates.y;
+        var squarePosition = IdentifySquare(pointCoordinates);
+        console.log('mousedown on ' + JSON.stringify(squarePosition));
+        swipeStartRow = squarePosition.row;
+        swipeStartCol = squarePosition.column;
     });
     stage.on('mouseup', function() {
         var pointCoordinates = stage.getPointerPosition();
-        console.log('mouseup on ' + JSON.stringify(IdentifySquare(pointCoordinates)));
-        lineStopX = pointCoordinates.x;
-        lineStartY = pointCoordinates.y;
-        //TreadSquares(); // change the colors on the row / col / diag
+        var squarePosition = IdentifySquare(pointCoordinates);
+        console.log('mouseup on ' + JSON.stringify(squarePosition));
+        swipeStopRow = squarePosition.row;
+        swipeStopCol = squarePosition.column;
+        TreadSquares(); // change the colors on the row / col / diag
     });
 
     // create the squares
@@ -111,6 +113,22 @@ function DrawBoard(stage){
     strokeWidth: 4
     });
 
+
+    // add the squares to the boardSquares
+    // row 1
+    boardSquares[1] = [];
+    boardSquares[1][1] = rect11;
+    boardSquares[1][2] = rect12;
+    boardSquares[1][3] = rect13;
+    boardSquares[2] = [];
+    boardSquares[2][1] = rect21;
+    boardSquares[2][2] = rect22;
+    boardSquares[2][3] = rect23;
+    boardSquares[3] = [];
+    boardSquares[3][1] = rect31;
+    boardSquares[3][2] = rect32;
+    boardSquares[3][3] = rect33;
+
     // add the shapes to the layer
     // row 1
     drawingLayer.add(rect11);
@@ -143,5 +161,78 @@ function IdentifySquare(pointCoordinates){
     row = Math.ceil((pointCoordinates.y - firstX) / (squareSize + distanceBetweenSquares));
     column = Math.ceil((pointCoordinates.x - firstX) / (squareSize + distanceBetweenSquares));
 
+    //console.log("row=" + row + ", col=" + column);
     return {row: row, column: column};
+}
+
+function TreadSquares(){
+    // ignore if it's on the same square
+    if(swipeStartRow === swipeStopRow && swipeStartCol === swipeStopCol){
+        return;
+    }
+
+    console.log("position: " + swipeStartRow + "," + swipeStartCol + "," + swipeStopRow + "," + swipeStopCol);
+    // row logic
+    if(swipeStartRow === swipeStopRow){
+        if(swipeStartCol < swipeStopCol){
+            TreadRowFw();
+        }
+        else{
+            TreadRowPrev();
+        }
+    }
+    // col logic
+    else if(swipeStartCol === swipeStopCol){
+        if(swipeStartRow < swipeStopRow){
+            TreadColFw();
+        }
+        else{
+            TreadColPrev();
+        }
+    }
+    // todo: diag logic
+}
+
+function TreadRowFw(){
+    for(var index = 1; index <= 3; index++){
+        var currentColor = boardSquares[swipeStartRow][index].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
+        boardSquares[swipeStartRow][index].fill(colorOrder[nextColorIndex]);
+        boardSquares[swipeStartRow][index].draw();
+    }
+}
+
+function TreadRowPrev(){
+    for(var index = 1; index <= 3; index++){
+        var currentColor = boardSquares[swipeStartRow][index].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1; // loop colors when you reach the end
+        boardSquares[swipeStartRow][index].fill(colorOrder[nextColorIndex]);
+        boardSquares[swipeStartRow][index].draw();
+    }
+}
+
+function TreadColFw(){
+    for(var index = 1; index <= 3; index++){
+        var currentColor = boardSquares[index][swipeStartCol].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
+        boardSquares[index][swipeStartCol].fill(colorOrder[nextColorIndex]);
+        boardSquares[index][swipeStartCol].draw();
+    }
+}
+
+function TreadColPrev(){
+    for(var index = 1; index <= 3; index++){
+        var currentColor = boardSquares[index][swipeStartCol].fill()
+        var currentColorIndex = colorOrder.indexOf(currentColor);
+        var nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1; // loop colors when you reach the end
+        boardSquares[index][swipeStartCol].fill(colorOrder[nextColorIndex]);
+        boardSquares[index][swipeStartCol].draw();
+    }
+}
+
+function LogPosition(){
+    console.log("position: " + swipeStartRow + "," + swipeStartCol + "," + swipeStopRow + "," + swipeStopCol);
 }
