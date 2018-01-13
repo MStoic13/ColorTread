@@ -208,56 +208,40 @@ function TreadSquares(){
         }
         // primary diag prev
         else if(angle === 1){
-            //TreadPrimaryDiagPrev();
+            TreadPrimaryDiagPrev();
         }
         // secondary diag fw
         else if(angle === 0){
-            //TreadSecondaryDiagFw();
+            TreadSecondaryDiagFw();
         }
         // secondary diag prev
         else if(angle === 3){
-            //TreadSecondaryDiagPrev();
+            TreadSecondaryDiagPrev();
         }
     }
 }
 
 function TreadRowFw(){
     for(var index = 1; index <= 3; index++){
-        var currentColor = boardSquares[swipeStartRow][index].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
-        boardSquares[swipeStartRow][index].fill(colorOrder[nextColorIndex]);
-        boardSquares[swipeStartRow][index].draw();
+        ColorSquareWithColor(swipeStartRow, index, true);
     }
 }
 
 function TreadRowPrev(){
     for(var index = 1; index <= 3; index++){
-        var currentColor = boardSquares[swipeStartRow][index].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1; // loop colors when you reach the end
-        boardSquares[swipeStartRow][index].fill(colorOrder[nextColorIndex]);
-        boardSquares[swipeStartRow][index].draw();
+        ColorSquareWithColor(swipeStartRow, index, false);
     }
 }
 
 function TreadColFw(){
     for(var index = 1; index <= 3; index++){
-        var currentColor = boardSquares[index][swipeStartCol].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
-        boardSquares[index][swipeStartCol].fill(colorOrder[nextColorIndex]);
-        boardSquares[index][swipeStartCol].draw();
+        ColorSquareWithColor(index, swipeStartCol, true);
     }
 }
 
 function TreadColPrev(){
     for(var index = 1; index <= 3; index++){
-        var currentColor = boardSquares[index][swipeStartCol].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1; // loop colors when you reach the end
-        boardSquares[index][swipeStartCol].fill(colorOrder[nextColorIndex]);
-        boardSquares[index][swipeStartCol].draw();
+        ColorSquareWithColor(index, swipeStartCol, false);
     }
 }
 
@@ -266,13 +250,7 @@ function TreadPrimaryDiagFw(){
     var rowIndex = swipeStartRow;
     var colIndex = swipeStartCol;
     while(rowIndex > 0 && colIndex > 0){
-        // color
-        var currentColor = boardSquares[rowIndex][colIndex].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
-        boardSquares[rowIndex][colIndex].fill(colorOrder[nextColorIndex]);
-        boardSquares[rowIndex][colIndex].draw();
-
+        ColorSquareWithColor(rowIndex, colIndex, true);
         rowIndex--;
         colIndex--;
     }
@@ -281,16 +259,86 @@ function TreadPrimaryDiagFw(){
     var rowIndex = swipeStartRow + 1;
     var colIndex = swipeStartCol + 1;
     while(rowIndex < 4 && colIndex < 4){
-        // color
-        var currentColor = boardSquares[rowIndex][colIndex].fill()
-        var currentColorIndex = colorOrder.indexOf(currentColor);
-        var nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1; // loop colors when you reach the end
-        boardSquares[rowIndex][colIndex].fill(colorOrder[nextColorIndex]);
-        boardSquares[rowIndex][colIndex].draw();
-
+        ColorSquareWithColor(rowIndex, colIndex, true);
         rowIndex++;
         colIndex++;
     }
+}
+
+function TreadPrimaryDiagPrev(){
+    // color upwards
+    var rowIndex = swipeStartRow;
+    var colIndex = swipeStartCol;
+    while(rowIndex > 0 && colIndex > 0){
+        ColorSquareWithColor(rowIndex, colIndex, false);
+        rowIndex--;
+        colIndex--;
+    }
+
+    // color downwards
+    var rowIndex = swipeStartRow + 1;
+    var colIndex = swipeStartCol + 1;
+    while(rowIndex < 4 && colIndex < 4){
+        ColorSquareWithColor(rowIndex, colIndex, false);
+        rowIndex++;
+        colIndex++;
+    }
+}
+
+function TreadSecondaryDiagFw(){
+    // color upwards
+    var rowIndex = swipeStartRow;
+    var colIndex = swipeStartCol;
+    while(rowIndex > 0 && colIndex < 4){
+        ColorSquareWithColor(rowIndex, colIndex, true);
+        rowIndex--;
+        colIndex++;
+    }
+
+    // color downwards
+    var rowIndex = swipeStartRow + 1;
+    var colIndex = swipeStartCol - 1;
+    while(rowIndex < 4 && colIndex > 0){
+        ColorSquareWithColor(rowIndex, colIndex, true);
+        rowIndex++;
+        colIndex--;
+    }
+}
+
+function TreadSecondaryDiagPrev(){
+    // color upwards
+    var rowIndex = swipeStartRow;
+    var colIndex = swipeStartCol;
+    while(rowIndex > 0 && colIndex < 4){
+        ColorSquareWithColor(rowIndex, colIndex, false);
+        rowIndex--;
+        colIndex++;
+    }
+
+    // color downwards
+    var rowIndex = swipeStartRow + 1;
+    var colIndex = swipeStartCol - 1;
+    while(rowIndex < 4 && colIndex > 0){
+        ColorSquareWithColor(rowIndex, colIndex, false);
+        rowIndex++;
+        colIndex--;
+    }
+}
+
+function ColorSquareWithColor(row, col, next){
+    var currentColor = boardSquares[row][col].fill()
+    var currentColorIndex = colorOrder.indexOf(currentColor);
+    
+    // loop colors when you reach the end
+    var nextColorIndex;
+    if(next){
+        nextColorIndex = currentColorIndex === colorOrder.length - 1 ? 0 : currentColorIndex + 1;
+    }
+    else{
+        nextColorIndex = currentColorIndex === 0 ? colorOrder.length - 1 : currentColorIndex - 1;
+    }
+    boardSquares[row][col].fill(colorOrder[nextColorIndex]);
+    boardSquares[row][col].draw();
 }
 
 function LogPosition(){
