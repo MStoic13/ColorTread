@@ -5,4 +5,6 @@ var stage = new Konva.Stage({
     height: 500
 });
 
-DrawBoard(stage);
+//DrawBoard(stage);
+
+DrawBoardFromLevel(stage, level1);
