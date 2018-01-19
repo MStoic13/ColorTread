@@ -10,4 +10,4 @@ Enjoy!
 
 ## License
 
-This project is licensed under the MIT License - see the [MIT License.md](MIT License.md) file for details.
+This project is licensed under the MIT License - see the [MIT License.md](https://github.com/MStoic13/ColorTread/blob/master/MIT%20License) file for details.
