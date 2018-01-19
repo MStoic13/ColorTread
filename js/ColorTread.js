@@ -1,10 +1,8 @@
-// create a stage
+// create the stage
 var stage = new Konva.Stage({
     container: 'GameAreaContainerId',   // id of container <div>
-    width: 500,
-    height: 500
+    width: 900,
+    height: 900
 });
 
-//DrawBoard(stage);
-
-DrawBoardFromLevel(stage, level1);
+DrawBoardFromLevel(stage, currentLevel);
