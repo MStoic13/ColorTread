@@ -8,6 +8,10 @@ This is a static website. Download the repo into a folder and open main.html.
 
 Enjoy!
 
+## Personal ask
+
+I generated the levels by doing various moves on a solved board and I would stop when I got some pretty pattern. So there is always a solution since all moves are reversible. I have not yet found an algorithm to solve this type of puzzle. If you find something, please start a discussion on the repo. I'd love to see your approach.
+
 ## License
 
 This project is licensed under the MIT License - see the [MIT License.md](https://github.com/MStoic13/ColorTread/blob/master/MIT%20License) file for details.
