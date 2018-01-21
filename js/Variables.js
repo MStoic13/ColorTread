@@ -192,4 +192,4 @@ var level21 = [
     [2,2,2,2,2,2,2,2,2,2]
 ];
 
-var currentLevel = level10;
+var currentLevel = level1;
