@@ -24,6 +24,34 @@ var colorOrder = ["red", "yellow", "green", "blue"];
 var boardSquares = [];
 
 // levels
+var levelTutorial1 = [
+    [0,1,2,3],
+    [0,1,2,3],
+    [0,1,2,3],
+    [0,1,2,3]
+];
+
+var levelTutorial2 = [
+    [0,0,0,0],
+    [1,1,1,1],
+    [2,2,2,2],
+    [3,3,3,3]
+];
+
+var levelTutorial3 = [
+    [1,0,0,0],
+    [0,1,0,0],
+    [3,0,1,0],
+    [0,3,0,1]
+];
+
+var levelTutorial4 = [
+    [0,2,0,1],
+    [2,0,1,0],
+    [0,1,0,3],
+    [1,0,3,0]
+];
+
 var level1 = [
     [1,0,0,0],
     [1,0,0,0],
@@ -192,4 +220,4 @@ var level21 = [
     [2,2,2,2,2,2,2,2,2,2]
 ];
 
-var currentLevel = level1;
+var currentLevel = level9;
